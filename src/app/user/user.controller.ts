@@ -6,25 +6,28 @@ import {
   UseGuards,
   Req,
   Patch,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { LogInterceptor } from 'src/interceptors/log.interceptor';
 import { JwtAuthGuard } from '../../guards/jwt.guard';
-import { AccessDto } from './dto/access.dto';
+import { UserDto } from '../../dtos/user.dto';
 import { UserService } from './user.service';
+import { ReadDto } from 'src/dtos/find.dto';
+import { RoleGuard } from 'src/guards/role.guard';
+import { Roles } from 'src/decorators/role.decorator';
 
 @UseInterceptors(LogInterceptor)
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
   @Post('signup')
-  signUp(@Body() signUpDto: AccessDto) {
+  signUp(@Body() signUpDto: UserDto) {
     return this.userService.signUp(signUpDto);
   }
 
   @Post('login')
-  login(@Body() loginDto: AccessDto) {
+  login(@Body() loginDto: UserDto) {
     return this.userService.login(loginDto);
   }
 
@@ -44,5 +47,12 @@ export class UserController {
   @Patch('change_password')
   changePassword(@Req() req: any, @Body('password') password: string) {
     return this.userService.changePassword(req.user.id, password);
+  }
+
+  @Roles("ADMIN")
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Get()
+  findAll(@Query() readDto: ReadDto) {
+    return this.userService.findAll(readDto);
   }
 }
