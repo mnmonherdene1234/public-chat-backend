@@ -23,7 +23,7 @@ export class LogInterceptor implements NestInterceptor {
         try {
           let log: LogDto = new LogDto();
           log.ip = req.ip;
-          log.id = req.user?.id ?? null;
+          log.id = req.user?.id;
           log.method = req.method;
           log.path = req.originalUrl;
           log.status = parseInt(res.statusCode);
