@@ -13,7 +13,7 @@ import { LogInterceptor } from 'src/interceptors/log.interceptor';
 import { JwtAuthGuard } from '../../guards/jwt.guard';
 import { UserDto } from '../../dtos/user.dto';
 import { UserService } from './user.service';
-import { ReadDto } from 'src/dtos/find.dto';
+import { FindDto } from 'src/dtos/find.dto';
 import { RoleGuard } from 'src/guards/role.guard';
 import { Roles } from 'src/decorators/role.decorator';
 
@@ -49,10 +49,10 @@ export class UserController {
     return this.userService.changePassword(req.user.id, password);
   }
 
-  @Roles("ADMIN")
+  @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Get()
-  findAll(@Query() readDto: ReadDto) {
+  findAll(@Query() readDto: FindDto) {
     return this.userService.findAll(readDto);
   }
 }

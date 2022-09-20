@@ -9,8 +9,8 @@ import { User, UserDocument } from '../../schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto } from 'src/dtos/user.dto';
-import { ReadDto } from 'src/dtos/find.dto';
-import read from 'src/utils/read';
+import { FindDto } from 'src/dtos/find.dto';
+import find from 'src/utils/find';
 
 @Injectable()
 export class UserService {
@@ -71,7 +71,7 @@ export class UserService {
     return await this.userModel.findOne({ UUID: uuid }).select('username');
   }
 
-  async findAll(readDto: ReadDto) {
-    return await read(this.userModel, readDto);
+  async findAll(readDto: FindDto) {
+    return await find(this.userModel, readDto);
   }
 }

@@ -6,10 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { LogModule } from '../log/log.module';
 
 @Module({
-  imports: [
-    PassportModule,
-    LogModule
-  ],
+  imports: [PassportModule, LogModule],
   controllers: [UserController],
   providers: [UserService, JwtStrategy],
   exports: [UserService],

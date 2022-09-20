@@ -18,7 +18,7 @@ export class User extends Root {
 
   @Prop({
     required: true,
-    enum: ['ADMIN', "USER"],
+    enum: ['ADMIN', 'USER'],
   })
   role: string;
 }

@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import { LogDto } from 'src/dtos/log.dto';
 import { Log, LogDocument } from 'src/schemas/log.schema';
 import { User } from 'src/schemas/user.schema';
-import { ReadDto } from 'src/uti../../dtos/find.dto';
-import read from 'src/utils/read';
+import { FindDto } from 'src/uti../../dtos/find.dto';
+import find from 'src/utils/find';
 
 @Injectable()
 export class LogService {
@@ -17,7 +17,7 @@ export class LogService {
     return await new this.logModel(logDto).save();
   }
 
-  async findAll(readDto: ReadDto) {
-    return await read(this.logModel, readDto);
+  async findAll(readDto: FindDto) {
+    return await find(this.logModel, readDto);
   }
 }

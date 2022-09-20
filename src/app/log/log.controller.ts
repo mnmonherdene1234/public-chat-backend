@@ -9,7 +9,7 @@ import { Roles } from 'src/decorators/role.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { RoleGuard } from 'src/guards/role.guard';
 import { LogInterceptor } from 'src/interceptors/log.interceptor';
-import { ReadDto } from '../../dtos/find.dto';
+import { FindDto } from '../../dtos/find.dto';
 import { LogService } from './log.service';
 
 @Controller('log')
@@ -19,7 +19,7 @@ export class LogController {
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Get()
-  findAll(@Query() readDto: ReadDto) {
+  findAll(@Query() readDto: FindDto) {
     return this.logService.findAll(readDto);
   }
 }

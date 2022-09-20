@@ -1,7 +1,7 @@
 import { JoiSchema } from 'nestjs-joi';
 import * as Joi from 'joi';
 
-export class ReadDto {
+export class FindDto {
   @JoiSchema(Joi.object().default({}).optional())
   filter: {};
 

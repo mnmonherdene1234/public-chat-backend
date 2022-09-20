@@ -20,5 +20,5 @@ export class LogDto {
   method: string;
 
   @JoiSchema(Joi.number().optional())
-  time: number
+  time: number;
 }
