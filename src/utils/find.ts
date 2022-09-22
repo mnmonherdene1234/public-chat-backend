@@ -16,23 +16,23 @@ export interface data {
 
 export default async function find(
   model: Model<any>,
-  readDto: FindDto,
+  findDto: FindDto,
 ): Promise<data> {
   const data = await model
-    .find(readDto.filter)
-    .populate(readDto.populate)
-    .sort(readDto.sort)
-    .skip(readDto.pagination.pageSize * (readDto.pagination.page - 1))
-    .limit(readDto.pagination.pageSize);
+    .find(findDto.filter)
+    .populate(findDto.populate)
+    .sort(findDto.sort)
+    .skip(findDto.pagination.pageSize * (findDto.pagination.page - 1))
+    .limit(findDto.pagination.pageSize);
 
-  const total: number = await model.countDocuments(readDto.filter);
+  const total: number = await model.countDocuments(findDto.filter);
 
   return {
     data,
     meta: {
-      pagination: readDto.pagination,
-      populate: readDto.populate,
-      sort: readDto.sort,
+      pagination: findDto.pagination,
+      populate: findDto.populate,
+      sort: findDto.sort,
       total,
     },
   };
