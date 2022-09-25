@@ -16,6 +16,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggerInterceptor());
   app.useGlobalPipes(new JoiPipe());
   await app.listen(process.env.PORT);
-  console.log(`MY SERVER LISTENING ON ${process.env.PORT}🥰`);
+  console.log(`MY SERVER LISTENING ON ${process.env.PORT}`);
 }
 bootstrap();
