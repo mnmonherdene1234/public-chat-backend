@@ -31,10 +31,10 @@ export default async function find(
   return {
     data,
     meta: {
-      filter: readDto.filter,
-      pagination: readDto.pagination,
-      populate: readDto.populate,
-      sort: readDto.sort,
+      filter: findDto.filter,
+      pagination: findDto.pagination,
+      populate: findDto.populate,
+      sort: findDto.sort,
       total,
     },
   };
