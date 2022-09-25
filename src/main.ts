@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new LoggerInterceptor());
   app.useGlobalPipes(new JoiPipe());
-  const port = process.env.PORT || process.env.PORT;
+  const port = process.env.PORT || 8080;
   await app.listen(port);
   console.log(`MY SERVER LISTENING ON ${port}`);
 }
