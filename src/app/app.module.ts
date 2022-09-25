@@ -6,19 +6,18 @@ import {
   CacheInterceptor,
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/user.schema';
 import { LoggerMiddleware } from '../middlewares/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LogModule } from './log/log.module';
-import { UserModule } from './user/user.module';
-import { UserService } from './user/user.service';
+import { LogModule } from './logs/log.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { MessageModule } from './message/message.module';
+import { MessageModule } from './messages/message.module';
 import { Message, MessageSchema } from 'src/schemas/message.schema';
+import { UserModule } from './users/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Global()
 @Module({
@@ -38,9 +37,7 @@ import { Message, MessageSchema } from 'src/schemas/message.schema';
       { name: User.name, schema: UserSchema },
       { name: Message.name, schema: MessageSchema },
     ]),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-    }),
+    AuthModule,
     UserModule,
     LogModule,
     MessageModule,
@@ -48,22 +45,17 @@ import { Message, MessageSchema } from 'src/schemas/message.schema';
   controllers: [AppController],
   providers: [
     AppService,
-    UserService,
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
     },
   ],
   exports: [
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-    }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Message.name, schema: MessageSchema },
     ]),
-    UserService,
-    LogModule
+    LogModule,
   ],
 })
 export class AppModule {

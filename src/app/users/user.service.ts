@@ -1,14 +1,8 @@
-import {
-  Injectable,
-  BadRequestException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, now } from 'mongoose';
 import { User, UserDocument } from '../../schemas/user.schema';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { UserDto } from 'src/app/user/dto/user.dto';
 import { FindDto } from 'src/validations/find.dto';
 import find from 'src/utils/find';
 
@@ -16,32 +10,7 @@ import find from 'src/utils/find';
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
-    private readonly jwtService: JwtService,
   ) {}
-  async signUp(signUp: UserDto) {
-    try {
-      const user: User = await new this.userModel({
-        username: signUp.username,
-        password: await bcrypt.hash(signUp.password, await bcrypt.genSalt()),
-      }).save();
-      return {
-        access_token: this.jwtService.sign({ id: user.UUID }),
-      };
-    } catch (error) {
-      throw new BadRequestException(error);
-    }
-  }
-
-  async login(login: UserDto) {
-    let user: User = await this.userModel.findOne({ username: login.username });
-    if (!user) throw new UnauthorizedException();
-    if ((await bcrypt.compare(login.password, user.password)) === false)
-      throw new UnauthorizedException();
-    this.usedAt(user.UUID);
-    return {
-      access_token: this.jwtService.sign({ id: user.UUID }),
-    };
-  }
 
   async profile(uuid: string) {
     let user: User = await this.userModel

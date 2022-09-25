@@ -11,23 +11,13 @@ import {
 } from '@nestjs/common';
 import { LogInterceptor } from 'src/interceptors/log.interceptor';
 import { JwtAuthGuard } from '../../guards/jwt.guard';
-import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 import { FindDto } from 'src/validations/find.dto';
 
 @UseInterceptors(LogInterceptor)
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
-  @Post('signup')
-  signUp(@Body() signUpDto: UserDto) {
-    return this.userService.signUp(signUpDto);
-  }
-
-  @Post('login')
-  login(@Body() loginDto: UserDto) {
-    return this.userService.login(loginDto);
-  }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')

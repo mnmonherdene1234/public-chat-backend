@@ -5,7 +5,7 @@ import { MessageDto } from './dto/message.dto';
 import { MessageService } from './message.service';
 
 @UseInterceptors(LogInterceptor)
-@Controller('message')
+@Controller('messages')
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
