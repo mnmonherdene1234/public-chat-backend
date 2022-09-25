@@ -1,9 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { now, PromiseProvider } from 'mongoose';
+import { now } from 'mongoose';
 
 export type LogDocument = Log & Document;
 
-@Schema()
+@Schema({
+  toJSON: {
+    virtuals: true,
+    transform: function (doc: any, ret: any) {
+      ret.id = doc._id;
+      delete ret._id;
+      delete ret.__v;
+      return ret;
+    },
+  },
+})
 export class Log {
   @Prop()
   ip: string;

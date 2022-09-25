@@ -7,7 +7,4 @@ export class UserDto {
 
   @JoiSchema(Joi.string().required())
   password: string;
-
-  @JoiSchema(Joi.string().default('USER').valid('USER', 'ADMIN').optional())
-  role: string;
 }

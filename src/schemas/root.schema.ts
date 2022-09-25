@@ -1,5 +1,6 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
+import { now } from 'mongoose';
 
 @Schema()
 export class Root {
@@ -10,7 +11,8 @@ export class Root {
   UUID: string;
 
   @Prop({
-    default: Date.now(),
+    default: now(),
+    immutable: true,
   })
   created_at: Date;
 

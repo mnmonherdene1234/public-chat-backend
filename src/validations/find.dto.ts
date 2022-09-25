@@ -18,6 +18,6 @@ export class FindDto {
   @JoiSchema(Joi.string().default('').optional())
   sort: string;
 
-  @JoiSchema(Joi.array().items(Joi.string()).default([]).optional())
-  populate: string[];
+  @JoiSchema(Joi.any().default("").optional())
+  populate: string | string[];
 }

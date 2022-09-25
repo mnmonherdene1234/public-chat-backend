@@ -1,14 +1,15 @@
 import { Model } from 'mongoose';
-import { FindDto } from 'src/dtos/find.dto';
+import { FindDto } from 'src/validations/find.dto';
 
 export interface data {
   data: any[];
   meta: {
+    filter: {};
     pagination: {
       page: number;
       pageSize: number;
     };
-    populate: string[];
+    populate: string | string[];
     sort: string;
     total: number;
   };
@@ -30,6 +31,7 @@ export default async function find(
   return {
     data,
     meta: {
+      filter: readDto.filter,
       pagination: readDto.pagination,
       populate: readDto.populate,
       sort: readDto.sort,

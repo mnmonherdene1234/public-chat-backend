@@ -4,12 +4,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, now } from 'mongoose';
 import { User, UserDocument } from '../../schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from 'src/dtos/user.dto';
-import { FindDto } from 'src/dtos/find.dto';
+import { UserDto } from 'src/app/user/dto/user.dto';
+import { FindDto } from 'src/validations/find.dto';
 import find from 'src/utils/find';
 
 @Injectable()
@@ -23,7 +23,6 @@ export class UserService {
       const user: User = await new this.userModel({
         username: signUp.username,
         password: await bcrypt.hash(signUp.password, await bcrypt.genSalt()),
-        role: signUp.role,
       }).save();
       return {
         access_token: this.jwtService.sign({ id: user.UUID }),
@@ -38,6 +37,7 @@ export class UserService {
     if (!user) throw new UnauthorizedException();
     if ((await bcrypt.compare(login.password, user.password)) === false)
       throw new UnauthorizedException();
+    this.usedAt(user.UUID);
     return {
       access_token: this.jwtService.sign({ id: user.UUID }),
     };
@@ -48,6 +48,7 @@ export class UserService {
       .findOne({ UUID: uuid })
       .select(['username', 'role']);
     if (!user) throw new UnauthorizedException();
+    this.usedAt(uuid);
     return user;
   }
 
@@ -73,5 +74,12 @@ export class UserService {
 
   async findAll(readDto: FindDto) {
     return await find(this.userModel, readDto);
+  }
+
+  async usedAt(UUID: string) {
+    await this.userModel.findOneAndUpdate(
+      { UUID },
+      { $set: { used_at: now() } },
+    );
   }
 }

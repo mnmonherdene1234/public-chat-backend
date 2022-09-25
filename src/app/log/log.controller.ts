@@ -1,25 +1,15 @@
-import {
-  Controller,
-  Get,
-  Query,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
-import { Roles } from 'src/decorators/role.decorator';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/guards/jwt.guard';
-import { RoleGuard } from 'src/guards/role.guard';
-import { LogInterceptor } from 'src/interceptors/log.interceptor';
-import { FindDto } from '../../dtos/find.dto';
+import { FindDto } from '../../validations/find.dto';
 import { LogService } from './log.service';
 
 @Controller('log')
 export class LogController {
   constructor(private readonly logService: LogService) {}
 
-  @Roles('ADMIN')
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(@Query() readDto: FindDto) {
-    return this.logService.findAll(readDto);
+  findAll(@Query() findDto: FindDto) {
+    return this.logService.findAll(findDto);
   }
 }

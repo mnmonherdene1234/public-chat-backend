@@ -11,11 +11,9 @@ import {
 } from '@nestjs/common';
 import { LogInterceptor } from 'src/interceptors/log.interceptor';
 import { JwtAuthGuard } from '../../guards/jwt.guard';
-import { UserDto } from '../../dtos/user.dto';
+import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
-import { FindDto } from 'src/dtos/find.dto';
-import { RoleGuard } from 'src/guards/role.guard';
-import { Roles } from 'src/decorators/role.decorator';
+import { FindDto } from 'src/validations/find.dto';
 
 @UseInterceptors(LogInterceptor)
 @Controller('user')
@@ -49,8 +47,6 @@ export class UserController {
     return this.userService.changePassword(req.user.id, password);
   }
 
-  @Roles('ADMIN')
-  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get()
   findAll(@Query() readDto: FindDto) {
     return this.userService.findAll(readDto);

@@ -1,6 +1,5 @@
 import {
   Module,
-  NestModule,
   MiddlewareConsumer,
   Global,
   CacheModule,
@@ -9,7 +8,6 @@ import {
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RoleGuard } from 'src/guards/role.guard';
 import { User, UserSchema } from 'src/schemas/user.schema';
 import { LoggerMiddleware } from '../middlewares/logger.middleware';
 import { AppController } from './app.controller';
@@ -19,6 +17,8 @@ import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { MessageModule } from './message/message.module';
+import { Message, MessageSchema } from 'src/schemas/message.schema';
 
 @Global()
 @Module({
@@ -34,18 +34,21 @@ import { ThrottlerModule } from '@nestjs/throttler';
       max: 100,
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Message.name, schema: MessageSchema },
+    ]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
     }),
     UserModule,
     LogModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     UserService,
-    RoleGuard,
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
@@ -55,9 +58,12 @@ import { ThrottlerModule } from '@nestjs/throttler';
     JwtModule.register({
       secret: process.env.JWT_SECRET,
     }),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Message.name, schema: MessageSchema },
+    ]),
     UserService,
-    RoleGuard,
+    LogModule
   ],
 })
 export class AppModule {
