@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-export class LoggerInterceptor implements NestInterceptor {
+export class HTTPLoggerInterceptor implements NestInterceptor {
   logger = new Logger('LOGGER INTERCEPTOR');
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req = context.switchToHttp().getRequest();
