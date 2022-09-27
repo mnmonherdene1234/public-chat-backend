@@ -31,7 +31,7 @@ import { AuthModule } from './auth/auth.module';
       ttl: 30,
       max: 100,
     }),
-    MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forRoot(process.env.MONGODB_URI, { dbName: 'chat' }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Message.name, schema: MessageSchema },
