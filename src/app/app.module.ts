@@ -11,7 +11,6 @@ import { User, UserSchema } from 'src/schemas/user.schema';
 import { LoggerMiddleware } from '../middlewares/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LogModule } from './logs/log.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { MessageModule } from './messages/message.module';
@@ -39,7 +38,6 @@ import { AuthModule } from './auth/auth.module';
     ]),
     AuthModule,
     UserModule,
-    LogModule,
     MessageModule,
   ],
   controllers: [AppController],
@@ -55,7 +53,6 @@ import { AuthModule } from './auth/auth.module';
       { name: User.name, schema: UserSchema },
       { name: Message.name, schema: MessageSchema },
     ]),
-    LogModule,
   ],
 })
 export class AppModule {

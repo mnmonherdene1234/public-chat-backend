@@ -1,20 +1,16 @@
 import {
   Controller,
-  Post,
   Body,
   Get,
   UseGuards,
   Req,
   Patch,
   Query,
-  UseInterceptors,
 } from '@nestjs/common';
-import { LogInterceptor } from 'src/interceptors/log.interceptor';
 import { JwtAuthGuard } from '../../guards/jwt.guard';
 import { UserService } from './user.service';
 import { FindDto } from 'src/validations/find.dto';
 
-@UseInterceptors(LogInterceptor)
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -26,13 +22,13 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('change_username')
+  @Patch('change-username')
   changeUsername(@Req() req: any, @Body('username') username: string) {
     return this.userService.changeUsername(req.user.id, username);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('change_password')
+  @Patch('change-password')
   changePassword(@Req() req: any, @Body('password') password: string) {
     return this.userService.changePassword(req.user.id, password);
   }

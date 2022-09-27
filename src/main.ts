@@ -12,6 +12,7 @@ async function bootstrap() {
   app.enableCors({ origin: '*' });
   app.use(helmet());
   app.use(compression());
+  app.setGlobalPrefix('/v1/api');
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new LoggerInterceptor());
   app.useGlobalPipes(new JoiPipe());
