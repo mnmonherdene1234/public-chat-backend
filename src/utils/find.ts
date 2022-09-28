@@ -12,6 +12,7 @@ export interface data {
     populate: string | string[];
     sort: string;
     total: number;
+    modelName: string
   };
 }
 
@@ -36,6 +37,7 @@ export default async function find(
       populate: findDto.populate,
       sort: findDto.sort,
       total,
+      modelName: model.modelName
     },
   };
 }

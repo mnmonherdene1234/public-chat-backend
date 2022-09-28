@@ -18,6 +18,6 @@ async function bootstrap() {
   app.useGlobalPipes(new JoiPipe());
   const port = process.env.PORT || 8080;
   await app.listen(port);
-  console.log(`MY SERVER LISTENING ON ${port}`);
+  console.log(`SERVER LISTENING ON ${port}`);
 }
 bootstrap();
