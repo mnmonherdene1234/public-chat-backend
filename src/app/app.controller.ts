@@ -1,6 +1,5 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
-import { v2 as cloudinary } from 'cloudinary';
 
 @Controller()
 export class AppController {
@@ -12,13 +11,12 @@ export class AppController {
   }
 
   @Get('upload')
-  async upload() {
-    const timestamp = Math.round(new Date().getTime() / 1000);
-    const signature = cloudinary.utils.api_sign_request(
-      { timestamp },
-      process.env.CLOUDINARY_API_SECRET,
-    );
+  upload() {
+    return this.appService.getSignature();
+  }
 
-    return { timestamp, signature };
+  @Delete('delete/:name')
+  deleteFile(@Param('name') name: string) {
+    return this.appService.deleteFile(name);
   }
 }
