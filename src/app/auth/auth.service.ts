@@ -26,7 +26,7 @@ export class AuthService {
         password: await bcrypt.hash(signUp.password, await bcrypt.genSalt()),
       }).save();
       return {
-        access_token: this.jwtService.sign({ id: user.UUID }),
+        access_token: this.jwtService.sign({ id: user._id }),
       };
     } catch (error) {
       throw new BadRequestException(error);
@@ -37,9 +37,9 @@ export class AuthService {
     let user: User = await this.userModel.findOne({ username: login.username });
     if ((await bcrypt.compare(login.password, user.password)) === false)
       throw new UnauthorizedException();
-    this.userService.usedAt(user.UUID);
+    this.userService.usedAt(user._id);
     return {
-      access_token: this.jwtService.sign({ id: user.UUID }),
+      access_token: this.jwtService.sign({ id: user._id }),
     };
   }
 }

@@ -1,14 +1,15 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import { randomUUID } from 'crypto';
+import { randomUUID as uuid } from 'crypto';
 import { now } from 'mongoose';
 
 @Schema()
 export class Root {
   @Prop({
-    default: randomUUID(),
-    immutable: true,
+    unique: true,
+    type: String,
+    default: uuid(),
   })
-  UUID: string;
+  _id: string;
 
   @Prop({
     default: now(),
@@ -22,7 +23,7 @@ export class Root {
   updated_at: Date;
 
   @Prop({
-    default: 'SERVER',
+    default: 'NESTJS SERVER',
   })
   created_by: string;
 

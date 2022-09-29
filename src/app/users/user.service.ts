@@ -12,43 +12,34 @@ export class UserService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async profile(uuid: string) {
-    let user: User = await this.userModel
-      .findOne({ UUID: uuid })
-      .select(['username', 'role']);
+  async profile(id: string) {
+    let user: User = await this.userModel.findById(id);
     if (!user) throw new UnauthorizedException();
-    this.usedAt(uuid);
+    this.usedAt(id);
     return user;
   }
 
-  async changeUsername(uuid: string, username: string) {
-    const user = await this.userModel.updateOne(
-      { UUID: uuid },
-      { $set: { username } },
-    );
+  async changeUsername(id: string, username: string) {
+    const user = await this.userModel.findByIdAndUpdate(id, {
+      $set: { username },
+    });
     if (!user) throw new UnauthorizedException();
-    return await this.userModel.findOne({ UUID: uuid }).select('username');
+    return await this.userModel.findById(id);
   }
 
-  async changePassword(uuid: string, password: string) {
-    const user = await this.userModel.updateOne(
-      { UUID: uuid },
-      {
-        $set: { password: await bcrypt.hash(password, await bcrypt.genSalt()) },
-      },
-    );
+  async changePassword(id: string, password: string) {
+    const user = await this.userModel.findByIdAndUpdate(id, {
+      $set: { password: await bcrypt.hash(password, await bcrypt.genSalt()) },
+    });
     if (!user) throw new UnauthorizedException();
-    return await this.userModel.findOne({ UUID: uuid }).select('username');
+    return await this.userModel.findById(id);
   }
 
   async findAll(readDto: FindDto) {
     return await find(this.userModel, readDto);
   }
 
-  async usedAt(UUID: string) {
-    await this.userModel.findOneAndUpdate(
-      { UUID },
-      { $set: { used_at: now() } },
-    );
+  async usedAt(id: string) {
+    await this.userModel.findByIdAndUpdate(id, { $set: { used_at: now() } });
   }
 }

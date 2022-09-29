@@ -12,7 +12,6 @@ import { JwtStrategy } from './jwt.strategy';
       secret: process.env.JWT_SECRET,
     }),
     PassportModule,
-    UserModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

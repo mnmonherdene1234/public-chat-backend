@@ -46,6 +46,7 @@ import { AuthModule } from './auth/auth.module';
       { name: User.name, schema: UserSchema },
       { name: Message.name, schema: MessageSchema },
     ]),
+    UserModule,
   ],
 })
 export class AppModule {}
