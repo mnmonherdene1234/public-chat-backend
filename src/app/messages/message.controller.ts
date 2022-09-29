@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Query,
-  UseInterceptors,
-  UseGuards,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { FindDto } from 'src/validations/find.dto';
 import { MessageDto } from './dto/message.dto';
 import { MessageService } from './message.service';
@@ -16,7 +7,6 @@ import { MessageService } from './message.service';
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
-  @UseGuards(AuthGuard)
   @Post()
   create(@Body() createMessageDto: MessageDto) {
     return this.messageService.create(createMessageDto);

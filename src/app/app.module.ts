@@ -1,14 +1,7 @@
-import {
-  Module,
-  MiddlewareConsumer,
-  Global,
-  CacheModule,
-  CacheInterceptor,
-} from '@nestjs/common';
+import { Module, Global, CacheModule, CacheInterceptor } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/user.schema';
-import { LoggerMiddleware } from '../middlewares/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -55,8 +48,4 @@ import { AuthModule } from './auth/auth.module';
     ]),
   ],
 })
-export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes();
-  }
-}
+export class AppModule {}

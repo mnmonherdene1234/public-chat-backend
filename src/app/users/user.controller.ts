@@ -7,7 +7,7 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../../guards/jwt.guard';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 import { UserService } from './user.service';
 import { FindDto } from 'src/validations/find.dto';
 
