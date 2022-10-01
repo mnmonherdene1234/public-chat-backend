@@ -5,13 +5,6 @@ import { now } from 'mongoose';
 @Schema()
 export class Root {
   @Prop({
-    unique: true,
-    type: String,
-    default: uuid(),
-  })
-  _id: string;
-
-  @Prop({
     default: now(),
     immutable: true,
   })
