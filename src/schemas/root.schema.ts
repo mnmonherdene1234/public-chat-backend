@@ -4,7 +4,7 @@ import { now } from 'mongoose';
 
 @Schema()
 export class Root {
-  _id: string;
+  id: string;
 
   @Prop({
     default: now(),
