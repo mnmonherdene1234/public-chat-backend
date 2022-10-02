@@ -4,6 +4,8 @@ import { now } from 'mongoose';
 
 @Schema()
 export class Root {
+  _id: string;
+
   @Prop({
     default: now(),
     immutable: true,

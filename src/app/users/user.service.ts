@@ -21,7 +21,7 @@ export class UserService {
 
   async changeUsername(id: string, username: string) {
     const user = await this.userModel.findByIdAndUpdate(id, {
-      $set: { username, updated_by: 'self', updated_at: now() },
+      $set: { username, updated_by: 'SELF', updated_at: now() },
     });
     if (!user) throw new UnauthorizedException();
     return await this.userModel.findById(id);
@@ -31,7 +31,7 @@ export class UserService {
     const user = await this.userModel.findByIdAndUpdate(id, {
       $set: {
         password: await bcrypt.hash(password, await bcrypt.genSalt()),
-        updated_by: 'self',
+        updated_by: 'SELF',
         updated_at: now(),
       },
     });
