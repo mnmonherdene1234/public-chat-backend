@@ -9,10 +9,11 @@ export interface data {
       page: number;
       pageSize: number;
     };
+    select: string;
     populate: string | string[];
     sort: string;
     total: number;
-    modelName: string
+    modelName: string;
   };
 }
 
@@ -25,7 +26,8 @@ export default async function find(
     .populate(findDto.populate)
     .sort(findDto.sort)
     .skip(findDto.pagination.pageSize * (findDto.pagination.page - 1))
-    .limit(findDto.pagination.pageSize);
+    .limit(findDto.pagination.pageSize)
+    .select(findDto.select);
 
   const total: number = await model.countDocuments(findDto.filter);
 
@@ -35,9 +37,10 @@ export default async function find(
       filter: findDto.filter,
       pagination: findDto.pagination,
       populate: findDto.populate,
+      select: findDto.select,
       sort: findDto.sort,
+      modelName: model.modelName,
       total,
-      modelName: model.modelName
     },
   };
 }

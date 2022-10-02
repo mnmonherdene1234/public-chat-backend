@@ -8,7 +8,7 @@ export class FindDto {
   @JoiSchema(
     Joi.object({
       page: Joi.number().min(1).required(),
-      pageSize: Joi.number().min(1).required(),
+      pageSize: Joi.number().min(1).max(100).required(),
     })
       .default({ page: 1, pageSize: 25 })
       .optional(),
@@ -16,8 +16,11 @@ export class FindDto {
   pagination: { page: number; pageSize: number };
 
   @JoiSchema(Joi.string().default('').optional())
+  select: string;
+
+  @JoiSchema(Joi.string().default('').optional())
   sort: string;
 
-  @JoiSchema(Joi.any().default("").optional())
+  @JoiSchema(Joi.any().default('').optional())
   populate: string | string[];
 }

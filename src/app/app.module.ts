@@ -21,8 +21,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     CacheModule.register({
       isGlobal: true,
-      ttl: 30,
-      max: 100,
+      ttl: 3,
+      max: 300,
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI, { dbName: 'chat' }),
     MongooseModule.forFeature([
